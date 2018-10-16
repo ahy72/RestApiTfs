@@ -2,42 +2,31 @@ name: inverse
 layout: true
 class: center, middle, inverse
 ---
-# Git入門
+# REST API for TFS
 
 ---
-layout: false
+## TFS とは？
 
-## 対象者
+*TFS = Team Foundation Server  
+ご存知の通り、ソースコードのバージョン管理システム
 
-* git未経験
-* 基本的なコマンド操作可能
+---
+## REST API とは？
+
+*REST = REpresentational State Transfer  
+*API = Application Programming Interface
+
+＞Webシステムを外部から利用するためのプログラムの呼び出し規約(API)  
+＞RESTと呼ばれる設計原則に従って策定されたもの  
+
+引用：[IT用語辞典 e-Words](http://e-words.jp/w/RESTful_API.html)  
+
+HTTP の GET や POST で操作し、データのやり取りを JSON などで行うという程度のイメージでOK
 
 ---
 ## 目標
 
-* 基本的なgitコマンド操作ができるようになる  
-* githubの操作ができるようになる
-
----
-## Gitとは
-
-* 変更履歴を記録・追跡するためのバージョン管理システム  
-* ローカル環境で操作  
-* 差分ではなくスナップショット  
-
----
-## 用語
-
-### リポジトリ
-ファイルやディレクトリの状態を記録する場所。リモートリポジトリとローカルリポジトリがある
-
-
----
-## インストール
-
-[公式サイト](https://git-scm.com/downloads)よりダウンロード
-
-![download](download.png)
+C# で REST API を用いて TFS を操作するまでの流れを知る
 
 ---
 インストールが完了すると、gitコマンドが使用可能になる
