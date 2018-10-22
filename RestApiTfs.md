@@ -268,3 +268,8 @@ POST リクエストするとビルドが始まる
 ``` cs
 var response = await HttpClient.PostAsync($"http://ServerName:8080/tfs/CollectionName/ProjectName/_apis/build/builds?api-version=3.2", content)
 ```
+
+---
+# おわり
+今回はビルドを操作したが、タスクや変更セット、シェルブ、Wiki なども操作できる  
+アイディア次第で色々な便利ツールが作れる、かも？
