@@ -75,7 +75,7 @@ _demo_
 ### TFS のアクセストークンページを開く
 
 例  
-http://_ServerName:8080_/tfs/_details/security/tokens
+http\://_ServerName:8080_/tfs/_details/security/tokens
 
 ---
 ### [追加] をクリックする  
@@ -105,7 +105,7 @@ http://_ServerName:8080_/tfs/_details/security/tokens
 ## ビルド定義を作成
 
 例  
-http://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_/_build
+http\://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_/_build
 
 ---
 ### 省略
@@ -139,19 +139,19 @@ PersonalAccessToken は準備②で用意したアクセストークンを指定
 リファレンスを見るとこう書かれている
 
 >Get a list of build definitions  
->GET https://{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}\[&name={string}\] 以下略
+>GET https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}\[&name={string}\] 以下略
 
 引用：[Get a list of build definitions](https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/build/definitions?view=tfs-2018#get-a-list-of-build-definitions) 
 
 ---
-<font color="Red">https://{instance}/DefaultCollection/{project}</font>/_apis/build/definitions?api-version={version}\[&name={string}\]  
+<font color="Red">https\://{instance}/DefaultCollection/{project}</font>/_apis/build/definitions?api-version={version}\[&name={string}\]  
 この<font color="Red">赤字</font>部分は環境によって読み替える  
 
 例  
 http://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_
 
 ---
-<font color="Black">h</font>ttps://{instance}/DefaultCollection/{project}/_apis/build/definitions?"<font color="Red">api-version={version}</font>\[&definitions={string}\]  
+https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?"<font color="Red">api-version={version}</font>\[&definitions={string}\]  
 この<font color="Red">赤字</font>部分はAPIバージョンで、TFSのバージョンと対応している
 
 ---
@@ -166,7 +166,7 @@ http://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_
 引用：[API and TFS version mapping](https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/overview?view=tfs-2018#api-and-tfs-version-mapping) 
 
 ---
-https://{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}<font color="Red">\[&definitions={string}\]</font>  
+https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}<font color="Red">\[&definitions={string}\]</font>  
 この<font color="Red">赤字</font>部分は検索したいビルド定義の名称を入れる
 
 ---
@@ -223,15 +223,15 @@ var getResult = JsonConvert.DeserializeObject<GetResult>(responseBody);
 リファレンスを見るとこう書かれている
 
 >Queue a build  
->POST https://{instance}/DefaultCollection/{project}/_apis/build/builds?api-version={version}
+>POST https\://{instance}/DefaultCollection/{project}/_apis/build/builds?api-version={version}
 
 引用：[Queue a build](https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/build/builds?view=tfs-2018#queue-a-buildあ) 
 
 ---
-<font color="Red">https://{instance}/DefaultCollection/{project}</font>/_apis/build/builds?api-version={version}  
+<font color="Red">https\://{instance}/DefaultCollection/{project}</font>/_apis/build/builds?api-version={version}  
 <font color="Red">このへん</font>と  
 
-https://{instance}/DefaultCollection/{project}/_apis/build/builds?<font color="Red">api-version={version}</font>  
+https\://{instance}/DefaultCollection/{project}/_apis/build/builds?<font color="Red">api-version={version}</font>  
 <font color="Red">このへん</font>は、ビルド定義を検索したときと同じ
 
 ---
