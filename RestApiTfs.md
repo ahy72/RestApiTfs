@@ -28,7 +28,13 @@ HTTP の GET や POST で操作し、データのやり取りを JSON などで�
 ## 目標
 
 C# で REST API を用いて TFS を操作するまでの流れを知る  
-(今回は例として自動ビルドを実行してみる)
+(今回は例として自動ビルドを実行してみる)  
+
+副産物として(少しだけ)理解できるもの
+* Nuget
+* Http リクエスト
+* JSON 形式データ
+
 
 ---
 ## 全体の流れ
@@ -75,7 +81,7 @@ _demo_
 ### TFS のアクセストークンページを開く
 
 例  
-http\://_ServerName:8080_/tfs/_details/security/tokens
+http&#58;//_ServerName:8080_/tfs/_details/security/tokens
 
 ---
 ### [追加] をクリックする  
@@ -105,7 +111,7 @@ http\://_ServerName:8080_/tfs/_details/security/tokens
 ## ビルド定義を作成
 
 例  
-http\://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_/_build
+http&#58;//_ServerName:8080_/tfs/_CollectionName_/_ProjectName_/_build
 
 ---
 ### 省略
@@ -124,10 +130,14 @@ private static readonly HttpClient HttpClient;
 
 HttpClient = new HttpClient();
 
-HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+HttpClient.DefaultRequestHeaders.Accept.Add
+  (new MediaTypeWithQualityHeaderValue("application/json"));
 
-string authParameter = Convert.ToBase64String(Encoding.ASCII.GetBytes($":{PersonalAccessToken}"));
-HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authParameter);
+string authParameter 
+  = Convert.ToBase64String(Encoding.ASCII.GetBytes($":{PersonalAccessToken}"));
+
+HttpClient.DefaultRequestHeaders.Authorization 
+  = new AuthenticationHeaderValue("Basic", authParameter);
 ```
 PersonalAccessToken は準備②で用意したアクセストークンを指定する  
 インスタンスは static で保持する  
@@ -139,23 +149,23 @@ PersonalAccessToken は準備②で用意したアクセストークンを指定
 リファレンスを見るとこう書かれている
 
 >Get a list of build definitions  
->GET https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}\[&name={string}\] 以下略
+>GET https&#58;//{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}\[&name={string}\] 以下略
 
 引用：[Get a list of build definitions](https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/build/definitions?view=tfs-2018#get-a-list-of-build-definitions) 
 
 ---
-<font color="Red">https\://{instance}/DefaultCollection/{project}</font>/_apis/build/definitions?api-version={version}\[&name={string}\]  
+<font color="Red">https&#58;//{instance}/DefaultCollection/{project}</font>/_apis/build/definitions?api-version={version}\[&name={string}\]  
 この<font color="Red">赤字</font>部分は環境によって読み替える  
 
 例  
-http://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_
+http&#58;//_ServerName:8080_/tfs/_CollectionName_/_ProjectName_
 
 ---
-https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?"<font color="Red">api-version={version}</font>\[&definitions={string}\]  
+https&#58;//{instance}/DefaultCollection/{project}/_apis/build/definitions?"<font color="Red">api-version={version}</font>\[&definitions={string}\]  
 この<font color="Red">赤字</font>部分はAPIバージョンで、TFSのバージョンと対応している
 
 >|TFS Version|REST API Version|
->|:---|:---|
+>|:---|:---:|
 >|TFS 2017 Update 2|3.2|
 >|TFS 2017 Update 1|3.1|
 >|TFS 2017 RTW|3.0|
@@ -165,13 +175,15 @@ https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?"<font c
 引用：[API and TFS version mapping](https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/overview?view=tfs-2018#api-and-tfs-version-mapping) 
 
 ---
-https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}<font color="Red">\[&definitions={string}\]</font>  
+https&#58;//{instance}/DefaultCollection/{project}/_apis/build/definitions?api-version={version}<font color="Red">\[&definitions={string}\]</font>  
 この<font color="Red">赤字</font>部分は検索したいビルド定義の名称を入れる
 
 ---
 GET リクエストをして結果を見てみる  
 ``` cs
-var response = await HttpClient.GetAsync($"http://ServerName:8080/tfs/CollectionName/ProjectName/_apis/build/definitions?name=MyBuild&api-version=3.2");
+var response = await HttpClient.GetAsync
+  ("http://ServerName:8080/tfs/CollectionName/ProjectName/_apis/build/definitions?name=MyBuild&api-version=3.2");
+
 string responseBody = await response.Content.ReadAsStringAsync();
 ```
 
@@ -222,15 +234,15 @@ var getResult = JsonConvert.DeserializeObject<GetResult>(responseBody);
 リファレンスを見るとこう書かれている
 
 >Queue a build  
->POST https\://{instance}/DefaultCollection/{project}/_apis/build/builds?api-version={version}
+>POST https&#58;//{instance}/DefaultCollection/{project}/_apis/build/builds?api-version={version}
 
 引用：[Queue a build](https://docs.microsoft.com/en-us/azure/devops/integrate/previous-apis/build/builds?view=tfs-2018#queue-a-buildあ) 
 
 ---
-<font color="Red">https\://{instance}/DefaultCollection/{project}</font>/_apis/build/builds?api-version={version}  
+<font color="Red">https&#58;//{instance}/DefaultCollection/{project}</font>/_apis/build/builds?api-version={version}  
 <font color="Red">このへん</font>と  
 
-https\://{instance}/DefaultCollection/{project}/_apis/build/builds?<font color="Red">api-version={version}</font>  
+https&#58;//{instance}/DefaultCollection/{project}/_apis/build/builds?<font color="Red">api-version={version}</font>  
 <font color="Red">このへん</font>は、ビルド定義を検索したときと同じ
 
 ---
@@ -259,14 +271,20 @@ var requestBody = new
 
 シリアライズして、送るデータを作成
 ``` cs
-var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+var content = new StringContent
+  (JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
 ```
 
 ---
 POST リクエストするとビルドが始まる 
 ``` cs
-var response = await HttpClient.PostAsync($"http://ServerName:8080/tfs/CollectionName/ProjectName/_apis/build/builds?api-version=3.2", content)
+var response = await HttpClient.PostAsync
+  ("http://ServerName:8080/tfs/CollectionName/ProjectName/_apis/build/builds?api-version=3.2", content)
 ```
+
+---
+### ビルドが開始されたことを確認してみる  
+![](image/queue.png)
 
 ---
 # おわり
