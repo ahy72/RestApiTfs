@@ -154,7 +154,6 @@ http://_ServerName:8080_/tfs/_CollectionName_/_ProjectName_
 https\://{instance}/DefaultCollection/{project}/_apis/build/definitions?"<font color="Red">api-version={version}</font>\[&definitions={string}\]  
 この<font color="Red">赤字</font>部分はAPIバージョンで、TFSのバージョンと対応している
 
----
 >|TFS Version|REST API Version|
 >|:---|:---|
 >|TFS 2017 Update 2|3.2|
